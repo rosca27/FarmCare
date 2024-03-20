@@ -1,0 +1,30 @@
+version: "3.7"
+
+services:
+  farmcare_api:
+    container_name: device-farmcare_api
+    restart: always
+    build:
+      context: ../FarmcareAPI
+      dockerfile: ../FarmcareAPI/Dockerfile
+    env_file: ../FarmcareAPI/.env
+    depends_on:
+      - mysql
+    ports:
+      - "4000:4000"
+    command: npm run dev
+    networks: ["my_network"]
+
+  mysql:
+    container_name: farmcare_api_mysql
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: "password"
+      MYSQL_DATABASE: "farmcareapidb"
+    ports:
+      - "3307:3306"
+    networks: ["my_network"]
+
+networks:
+  my_network:
