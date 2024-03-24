@@ -1,16 +1,19 @@
 import e, { Router } from "express";
 import EquipmentController from "../controllers/equipmentController";
+import AuthValidator from "../middlewares/authMiddleware";
+import { equipmentCreateValidator, equipmentUpdateValidator } from "../middlewares/validation/equipmentValidator";
+import { numericIdParamValidator } from "../middlewares/validation/numericIdParamValidator";
 const asyncHandler = require('express-async-handler')
 
 const router = Router();
 
 router.route("/")
-    .get(asyncHandler(EquipmentController.getEquipments))
-    .post(asyncHandler(EquipmentController.createEquipment));
+    .get(AuthValidator, asyncHandler(EquipmentController.getEquipments))
+    .post(AuthValidator, equipmentCreateValidator, asyncHandler(EquipmentController.createEquipment));
 
 router.route("/:id")
-    .get(asyncHandler(EquipmentController.getEquipment))
-    .put(asyncHandler(EquipmentController.updateEquipment))
-    .delete(asyncHandler(EquipmentController.deleteEquipment));
+    .get(AuthValidator, numericIdParamValidator, asyncHandler(EquipmentController.getEquipment))
+    .put(AuthValidator, numericIdParamValidator, equipmentUpdateValidator, asyncHandler(EquipmentController.updateEquipment))
+    .delete(AuthValidator, numericIdParamValidator, asyncHandler(EquipmentController.deleteEquipment));
 
 export default router;

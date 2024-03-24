@@ -1,16 +1,19 @@
 import { Router } from 'express';
 import InventoryController from '../controllers/inventoryController';
+import AuthValidator from '../middlewares/authMiddleware';
+import { inventoryCreateValidator, inventoryUpdateValidator } from '../middlewares/validation/inventoryValidator';
+import { numericIdParamValidator } from '../middlewares/validation/numericIdParamValidator';
 const asyncHandler = require('express-async-handler');
 
 const router = Router();
 
 router.route('/')
-    .get(asyncHandler(InventoryController.getInventories))
-    .post(asyncHandler(InventoryController.createInventory));
+    .get(AuthValidator, asyncHandler(InventoryController.getInventories))
+    .post(AuthValidator, inventoryCreateValidator, asyncHandler(InventoryController.createInventory));
 
 router.route('/:id')
-    .get(asyncHandler(InventoryController.getInventory))
-    .put(asyncHandler(InventoryController.updateInventory))
-    .delete(asyncHandler(InventoryController.deleteInventory));
+    .get(AuthValidator, numericIdParamValidator, asyncHandler(InventoryController.getInventory))
+    .put(AuthValidator, numericIdParamValidator, inventoryUpdateValidator, asyncHandler(InventoryController.updateInventory))
+    .delete(AuthValidator, numericIdParamValidator, asyncHandler(InventoryController.deleteInventory));
 
 export default router;

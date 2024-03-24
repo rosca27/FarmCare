@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Request, Response, query } from "express";
 import UserModel from "../models/user";
 import { NotFound } from "../utils/errors";
 
@@ -53,14 +53,19 @@ class UserController {
             last_name: req.body.last_name,
             age: req.body.age,
             role: req.body.role,
-            email: req.body.email,
-            password: req.body.password,
-            confirmPassword: req.body.confirmPassword
+            email: req.body.email
         };
-        await user.update(user_data);
+        await UserModel.update(user_data, {
+            where: {
+                id: user_id
+            }
+        });
+
+        const updated_user = await UserModel.findByPk(user_id);
+
         res.status(200).json({
             success: true,
-            data: user
+            data: updated_user
         });
     }
 

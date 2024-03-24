@@ -4,10 +4,10 @@
 			"path": "FarmCareAPI"
 		},
 		{
-			"path": "FarmCareFrontend"
+			"path": "ProjectManagement"
 		},
 		{
-			"path": "ProjectManagement"
+			"path": "farmcarefrontend"
 		}
 	]
 }

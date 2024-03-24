@@ -7,18 +7,27 @@ const { SequelizeStorage, Umzug } = require('umzug');
 import router from './routes/routes';
 import errorMiddleware from './middlewares/errorMiddleware';
 import Associations from './models/associations';
+import helmet from 'helmet';
+import cors from 'cors';
 
-const PORT = environment.PORT || 3000;
+const PORT = environment.PORT || 4000;
 const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use((_req: Request, _res: Response, _next: NextFunction) => {
-    _res.header('Access-Control-Allow-Origin', '*');
-    _res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    _res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-    _next();
+app.use(helmet());
+
+app.use(cors({
+    origin: "http://localhost:3000",
+    credentials: true
+}));
+
+app.use((_req: Request, res: Response, next: NextFunction) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+    next();
 });
 
 const umzug = new Umzug({

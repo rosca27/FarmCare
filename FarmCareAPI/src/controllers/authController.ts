@@ -37,6 +37,30 @@ class AuthController {
             token
         });
     }
+
+    public static async register(req: Request, res: Response, next: NextFunction) {
+        const user_data = {
+            first_name: req.body.first_name,
+            last_name: req.body.last_name,
+            age: req.body.age,
+            email: req.body.email,
+            password: req.body.password,
+            confirmPassword: req.body.confirmPassword,
+            role: 'farmer' as any
+        };
+        const user = await UserModel.create(user_data);
+        const token = await AuthService.generateToken({
+            id: user.id,
+            email: user.email,
+            role: user.role
+        });
+
+        return res.status(201).json({
+            success: true,
+            data: user,
+            token
+        });
+    }
 }
 
 export default AuthController;
