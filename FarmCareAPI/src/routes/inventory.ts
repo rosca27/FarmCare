@@ -16,4 +16,7 @@ router.route('/:id')
     .put(AuthValidator, numericIdParamValidator, inventoryUpdateValidator, asyncHandler(InventoryController.updateInventory))
     .delete(AuthValidator, numericIdParamValidator, asyncHandler(InventoryController.deleteInventory));
 
+router.route("/farm/:id")
+    .get(AuthValidator, numericIdParamValidator, asyncHandler(InventoryController.getInventoryByFarmId));
+
 export default router;

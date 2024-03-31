@@ -16,4 +16,7 @@ router.route("/:id")
     .put(AuthValidator, numericIdParamValidator, equipmentUpdateValidator, asyncHandler(EquipmentController.updateEquipment))
     .delete(AuthValidator, numericIdParamValidator, asyncHandler(EquipmentController.deleteEquipment));
 
+router.route("/farm/:id")
+    .get(AuthValidator, numericIdParamValidator, asyncHandler(EquipmentController.getEquipmentsByFarmId));
+
 export default router;

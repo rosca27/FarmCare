@@ -78,6 +78,23 @@ class EquipmentController {
             message: "Equipment deleted successfully!"
         });
     }
+
+    public static async getEquipmentsByFarmId(req: Request, res: Response, next: NextFunction) {
+        const farm_id = req.params.id;
+        const farm = await FarmModel.findByPk(farm_id);
+        if (!farm) {
+            throw new NotFound("Farm not found!");
+        }
+        const equipments = await EquipmentModel.findAll({
+            where: {
+                farm_id: farm_id
+            }
+        });
+        return res.status(200).json({
+            success: true,
+            data: equipments
+        });
+    }
 }
 
 export default EquipmentController;

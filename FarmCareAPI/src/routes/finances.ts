@@ -16,4 +16,7 @@ router.route('/:id')
     .put(AuthValidator, numericIdParamValidator, financeUpdateValidator, asyncHandler(FinanceController.updateFinance))
     .delete(AuthValidator, numericIdParamValidator, asyncHandler(FinanceController.deleteFinance));
 
+router.route("/farm/:id")
+    .get(AuthValidator, numericIdParamValidator, asyncHandler(FinanceController.getFinanceByFarmId));
+
 export default router;

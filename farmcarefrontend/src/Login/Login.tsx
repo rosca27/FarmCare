@@ -1,9 +1,21 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import "./Login.css";
 import { FaUser, FaLock } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import useCustomFetch from "../Hooks/useCustomFetch";
+
+import {
+  LoginButton,
+  LoginComponent,
+  LoginIcon,
+  LoginInput,
+  LoginInputBox,
+  LoginLabel,
+  LoginLink,
+  LoginLinkA,
+  LoginTitle,
+  LoginWrapper,
+} from "./Login.css";
 
 export function Login() {
   const [username, setUsername] = useState("");
@@ -33,43 +45,48 @@ export function Login() {
   };
 
   return (
-    <div className="wrapper">
-      <form onSubmit={handleSubmit}>
-        <h2>Login</h2>
-        {errorMessage && (
-          <div className="alert alert-danger">{errorMessage}</div>
-        )}
-        <div className="input-box">
-          <label htmlFor="username">Username</label>
-          <input
-            type="text"
-            id="username"
-            placeholder="Enter your username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-          <FaUser className="icon" />
-        </div>
-        <div className="input-box">
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            placeholder="Enter your password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-          <FaLock className="icon" />
-        </div>
-        <button type="submit">Login</button>
-        <div className="register-link">
-          <p>
-            Don't have an account? <Link to="/auth/register">Register</Link>
-          </p>
-        </div>
-      </form>
-    </div>
+    <LoginComponent>
+      <LoginWrapper>
+        <form onSubmit={handleSubmit}>
+          <LoginTitle>Login</LoginTitle>
+          {errorMessage && (
+            <div className="alert alert-danger">{errorMessage}</div>
+          )}
+          <LoginInputBox>
+            <LoginLabel htmlFor="username">Username</LoginLabel>
+            <LoginInput
+              type="text"
+              id="username"
+              placeholder="Enter your username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+            <LoginIcon>
+              <FaUser />
+            </LoginIcon>
+          </LoginInputBox>
+          <LoginInputBox>
+            <LoginLabel htmlFor="password">Password</LoginLabel>
+            <LoginInput
+              type="password"
+              id="password"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <LoginIcon>
+              <FaLock />
+            </LoginIcon>
+          </LoginInputBox>
+          <LoginButton>Login</LoginButton>
+          <LoginLink>
+            Don't have an account?{" "}
+            <LoginLinkA to="/auth/register">Register</LoginLinkA>
+          </LoginLink>
+        </form>
+      </LoginWrapper>
+    </LoginComponent>
   );
 }

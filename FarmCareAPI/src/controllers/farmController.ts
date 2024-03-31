@@ -75,6 +75,23 @@ class FarmController {
             message: "Farm deleted successfully!"
         });
     }
+
+    public static async getFarmsByUserId(req: Request, res: Response, next: NextFunction) {
+        const user_id = req.params.id;
+        const user = await UserModel.findByPk(user_id);
+        if (!user) {
+            throw new NotFound("User not found!");
+        }
+        const farms = await FarmModel.findAll({
+            where: {
+                user_id: user_id
+            }
+        });
+        return res.status(200).json({
+            success: true,
+            data: farms
+        });
+    }
 }
 
 export default FarmController;

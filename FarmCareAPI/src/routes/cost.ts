@@ -16,4 +16,7 @@ router.route("/:id")
     .put(AuthValidator, numericIdParamValidator, costUpdateValidator, asyncHandler(CostController.updateCost))
     .delete(AuthValidator, numericIdParamValidator, asyncHandler(CostController.deleteCost));
 
+router.route("/crop/:id")
+    .get(AuthValidator, numericIdParamValidator, asyncHandler(CostController.getCostsByCropId));
+
 export default router;

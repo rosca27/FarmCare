@@ -81,6 +81,23 @@ class FinanceController {
             message: "Finance deleted successfully!"
         });
     }
+
+    public static async getFinanceByFarmId(req: Request, res: Response, next: NextFunction) {
+        const farm_id = req.params.id;
+        const farm = await FarmModel.findByPk(farm_id);
+        if (!farm) {
+            throw new NotFound("Farm not found!");
+        }
+        const finances = await FinancesModel.findAll({
+            where: {
+                farm_id: farm_id
+            }
+        });
+        return res.status(200).json({
+            success: true,
+            data: finances
+        });
+    }
 }
 
 export default FinanceController;

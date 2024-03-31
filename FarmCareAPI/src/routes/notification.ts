@@ -17,4 +17,7 @@ router.route('/:id')
     .put(AuthValidator, numericIdParamValidator, notificationUpdateValidator, asyncHandler(NotificationController.updateNotification))
     .delete(AuthValidator, numericIdParamValidator, asyncHandler(NotificationController.deleteNotification));
 
+router.route('/farm/:id')
+    .get(AuthValidator, numericIdParamValidator, asyncHandler(NotificationController.getNotificationsByFarmId));
+
 export default router;

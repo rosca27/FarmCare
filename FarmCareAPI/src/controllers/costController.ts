@@ -81,6 +81,23 @@ class CostController {
             message: "Cost deleted successfully!"
         });
     }
+
+    public static async getCostsByCropId(req: Request, res: Response, next: NextFunction) {
+        const crop_id = req.params.id;
+        const crop = await CropModel.findByPk(crop_id);
+        if (!crop) {
+            throw new NotFound("Crop not found!");
+        }
+        const costs = await CostModel.findAll({
+            where: {
+                crop_id: crop_id
+            }
+        });
+        return res.status(200).json({
+            success: true,
+            data: costs
+        });
+    }
 }
 
 export default CostController;

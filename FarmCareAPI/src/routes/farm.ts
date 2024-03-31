@@ -15,4 +15,7 @@ router.route("/:id")
     .put(AuthValidator, numericIdParamValidator, asyncHandler(FarmController.updateFarm))
     .delete(AuthValidator, numericIdParamValidator, asyncHandler(FarmController.deleteFarm));
 
+router.route("/user/:id")
+    .get(AuthValidator, numericIdParamValidator, asyncHandler(FarmController.getFarmsByUserId));
+
 export default router;

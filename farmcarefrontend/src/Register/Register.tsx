@@ -1,7 +1,18 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
-import "./Register.css";
+import { useNavigate } from "react-router-dom";
+import {
+  LoginButton,
+  LoginComponent,
+  LoginInput,
+  LoginInputBox,
+  LoginLabel,
+  LoginLink,
+  LoginLinkA,
+  LoginTitle,
+  LoginWrapper,
+} from "../Login/Login.css";
+import { RegisterGroup } from "./Register.css";
 
 export function Register() {
   const [firstName, setFirstName] = useState("");
@@ -40,87 +51,88 @@ export function Register() {
   };
 
   return (
-    <div className="wrapper">
-      <form onSubmit={handleSubmit}>
-        <h2>Register</h2>
-        {errorMessage && (
-          <div className="alert alert-danger">{errorMessage}</div>
-        )}
-        <div className="input-group">
-          <div className="input-box">
-            <label htmlFor="firstName">First Name</label>
-            <input
-              type="text"
-              id="firstName"
-              placeholder="Enter your first name"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
+    <LoginComponent>
+      <LoginWrapper>
+        <form onSubmit={handleSubmit}>
+          <LoginTitle>Register</LoginTitle>
+          {errorMessage && (
+            <div className="alert alert-danger">{errorMessage}</div>
+          )}
+          <RegisterGroup>
+            <LoginInputBox>
+              <LoginLabel htmlFor="firstName">First Name</LoginLabel>
+              <LoginInput
+                type="text"
+                id="firstName"
+                placeholder="Enter your first name"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                required
+              />
+            </LoginInputBox>
+            <LoginInputBox>
+              <LoginLabel htmlFor="lastName">Last Name</LoginLabel>
+              <LoginInput
+                type="text"
+                id="lastName"
+                placeholder="Enter your last name"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                required
+              />
+            </LoginInputBox>
+          </RegisterGroup>
+          <LoginInputBox>
+            <LoginLabel htmlFor="age">Age</LoginLabel>
+            <LoginInput
+              type="number"
+              id="age"
+              placeholder="Enter your age"
+              value={age}
+              onChange={(e) => setAge(e.target.value)}
               required
             />
-          </div>
-          <div className="input-box">
-            <label htmlFor="lastName">Last Name</label>
-            <input
-              type="text"
-              id="lastName"
-              placeholder="Enter your last name"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
+          </LoginInputBox>
+          <LoginInputBox>
+            <LoginLabel htmlFor="email">Email</LoginLabel>
+            <LoginInput
+              type="email"
+              id="email"
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               required
             />
-          </div>
-        </div>
-        <div className="input-box">
-          <label htmlFor="age">Age</label>
-          <input
-            type="number"
-            id="age"
-            placeholder="Enter your age"
-            value={age}
-            onChange={(e) => setAge(e.target.value)}
-            required
-          />
-        </div>
-        <div className="input-box">
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            id="email"
-            placeholder="Enter your email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div className="input-box">
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            placeholder="Enter your password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <div className="input-box">
-          <label htmlFor="confirmPassword">Confirm Password</label>
-          <input
-            type="password"
-            id="confirmPassword"
-            placeholder="Confirm your password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit">Register</button>
-        <div className="register-link">
-          <p>
-            Already have an account? <Link to="/auth/login">Login</Link>
-          </p>
-        </div>
-      </form>
-    </div>
+          </LoginInputBox>
+          <LoginInputBox>
+            <LoginLabel htmlFor="password">Password</LoginLabel>
+            <LoginInput
+              type="password"
+              id="password"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </LoginInputBox>
+          <LoginInputBox>
+            <LoginLabel htmlFor="confirmPassword">Confirm Password</LoginLabel>
+            <LoginInput
+              type="password"
+              id="confirmPassword"
+              placeholder="Confirm your password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+            />
+          </LoginInputBox>
+          <LoginButton type="submit">Register</LoginButton>
+          <LoginLink>
+            Already have an account?{" "}
+            <LoginLinkA to="/auth/login">Login</LoginLinkA>
+          </LoginLink>
+        </form>
+      </LoginWrapper>
+    </LoginComponent>
   );
 }
