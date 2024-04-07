@@ -27,7 +27,13 @@ class FarmController {
     }
 
     public static async getFarms(req: Request, res: Response, next: NextFunction) {
-        const farms = await FarmModel.findAll();
+        const farms = await FarmModel.findAll({
+            include: {
+                model: UserModel,
+                as: "user",
+                attributes: ['first_name', 'last_name']
+            }
+        });
         return res.status(200).json({
             success: true,
             data: farms

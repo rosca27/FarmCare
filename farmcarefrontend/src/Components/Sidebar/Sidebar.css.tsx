@@ -26,6 +26,7 @@ export const SidebarWrapper = styled.div<SidebarProps>`
 
 export const SidebarLink = styled(Link)`
   display: block;
+  font-size: 1.2rem;
   padding: 10px 20px;
   color: white;
   text-decoration: none;
@@ -35,9 +36,10 @@ export const SidebarLink = styled(Link)`
 `;
 
 export const SidebarToggle = styled.div`
-  display: block;
   margin-left: 20px;
   position: fixed;
+  top: 20px;
+  left: 20px;
   font-size: 30px;
   color: white;
   cursor: pointer;
@@ -53,7 +55,10 @@ export const SidebarToggle = styled.div`
 `;
 
 export const SidebarLogout = styled.button`
+  position: absolute;
   display: block;
+  bottom: 20px;
+  font-size: 1.2rem;
   width: 100%;
   padding: 10px 20px;
   background: transparent;

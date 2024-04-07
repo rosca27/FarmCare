@@ -18,7 +18,7 @@ const equipmentCreateValidator = [
             const errMsg = errArray[0].msg ?? "Invalid input";
             return res.status(400).json({
                 success: false,
-                errors: errMsg
+                message: errMsg
             });
         } else {
             return next();

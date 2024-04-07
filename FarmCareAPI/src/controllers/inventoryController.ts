@@ -102,7 +102,20 @@ class InventoryController {
         const inventories = await InventoryModel.findAll({
             where: {
                 farm_id: farm_id
-            }
+            },
+            include: [
+                {
+                    model: PlantTypeModel,
+                    as: "plant_type",
+                    attributes: ["name"]
+                },
+                {
+                    model: FarmModel,
+                    as: "farm",
+                    attributes: ["name"]
+                }
+            ]
+
         });
         return res.status(200).json({
             success: true,

@@ -41,7 +41,13 @@ class CropController {
     }
 
     public static async getCrops(req: Request, res: Response, next: NextFunction) {
-        const crops = await CropModel.findAll();
+        const crops = await CropModel.findAll({
+            include: {
+                model: PlantTypeModel,
+                as: "plant_type",
+                attributes: ["name"]
+            }
+        });
         return res.status(200).json({
             success: true,
             data: crops
@@ -51,7 +57,7 @@ class CropController {
     public static async getCrop(req: Request, res: Response, next: NextFunction) {
         const crop_id = req.params.id;
         const crop = await CropModel.findByPk(crop_id, {
-            include: ["farm"]
+            include: ["farm", "plant_type"]
         });
         if (!crop) {
             throw new NotFound("Crop not found!");

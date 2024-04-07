@@ -48,6 +48,17 @@ class AuthController {
             confirmPassword: req.body.confirmPassword,
             role: 'farmer' as any
         };
+        console.log(user_data);
+
+        const userExists = await UserModel.findOne({
+            where: {
+                email: user_data.email
+            }
+        });
+        if (userExists) {
+            throw new NotFound("User already exists!");
+        }
+
         const user = await UserModel.create(user_data);
         const token = await AuthService.generateToken({
             id: user.id,

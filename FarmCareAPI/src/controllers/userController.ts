@@ -4,6 +4,7 @@ import { NotFound } from "../utils/errors";
 
 class UserController {
     public static async createUser(req: Request, res: Response, next: NextFunction) {
+        console.log("Reached here");
         const user_data = {
             first_name: req.body.first_name,
             last_name: req.body.last_name,
@@ -13,6 +14,8 @@ class UserController {
             password: req.body.password,
             confirmPassword: req.body.confirmPassword
         };
+        console.log("Reached here");
+        console.log(user_data);
         const user = await UserModel.create(user_data);
         res.status(200).json({
             success: true,

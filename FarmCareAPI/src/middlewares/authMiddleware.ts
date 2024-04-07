@@ -18,6 +18,8 @@ const AuthValidator = (req: Request, res: Response, next: NextFunction) => {
         throw new Unauthorized("Token is not valid!");
     }
 
+    console.log("reached here");
+
     try {
         const user = jwt.verify(token, environment.JWT_SECRET) as any;
         req.body.user_info = {
@@ -27,6 +29,7 @@ const AuthValidator = (req: Request, res: Response, next: NextFunction) => {
         };
         next();
     } catch (err) {
+        console.log("here");
         throw new Unauthorized("Token is not valid!");
     }
 };
