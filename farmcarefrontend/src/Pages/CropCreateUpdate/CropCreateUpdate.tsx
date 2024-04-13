@@ -124,14 +124,13 @@ export function CropCreateEdit() {
       setDescription(description);
       setFarm(farm);
       setFarmId(farm_id);
-      setPlantingDate(planting_date);
-      setPlantType(plant_type);
+      setPlantingDate(planting_date.split("T")[0]);
+      setPlantType(plant_type.id);
       setWateringIntervalDays(watering_interval_days);
       setStatus(status);
       setMinimumGrowingDays(minimum_growing_days);
       setIncome(income);
       setHarvestingDate(harvesting_date);
-      console.log(plant_type.name);
     }
   }, [cropData]);
 
@@ -157,6 +156,13 @@ export function CropCreateEdit() {
         name: name,
         description: description,
         farm_id: farm_id,
+        planting_date: planting_date,
+        plant_type_id: plant_type,
+        watering_interval_days: watering_interval_days,
+        status: status,
+        minimum_growing_days: minimum_growing_days,
+        income: income,
+        harvesting_date: harvesting_date,
       })
         .then((response) => {
           if (role === "admin") {
@@ -166,6 +172,7 @@ export function CropCreateEdit() {
           }
         })
         .catch((error) => {
+          console.log("Here is the error:");
           console.log(error);
         });
     } else {
@@ -173,10 +180,17 @@ export function CropCreateEdit() {
         name: name,
         description: description,
         farm_id: farm_id,
+        planting_date: planting_date,
+        plant_type_id: plant_type,
+        watering_interval_days: watering_interval_days,
+        status: status,
+        minimum_growing_days: minimum_growing_days,
+        income: income,
+        harvesting_date: harvesting_date,
       })
         .then((response) => {
           if (role === "admin") {
-            navigate("/equipments");
+            navigate("/crops");
           } else {
             navigate(`/crops/details/${farm_id}`);
           }
@@ -232,7 +246,7 @@ export function CropCreateEdit() {
               <LoginLabel htmlFor="plant_type">Plant Type</LoginLabel>
               <CreateSelect
                 id="plant_type"
-                value={(plant_type as any).id}
+                value={plant_type}
                 onChange={(e) => setPlantType(e.target.value)}
                 required
               >
@@ -329,7 +343,7 @@ export function CropCreateEdit() {
             {isEditMode ? "Update Crop" : "Create Crop"}
           </LoginButton>
           {isEditMode && (
-            <LoginButton onClick={handleDelete}>Delete Equipment</LoginButton>
+            <LoginButton onClick={handleDelete}>Delete Crop</LoginButton>
           )}
         </form>
       </LoginWrapper>

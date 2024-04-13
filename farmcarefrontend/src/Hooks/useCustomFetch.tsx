@@ -20,7 +20,6 @@ const useCustomFetch = (url: string, method: string) => {
       });
       if (!response.ok) {
         const errorMessage = await response.text();
-
         throw new Error(errorMessage);
       }
       const result = await response.json();

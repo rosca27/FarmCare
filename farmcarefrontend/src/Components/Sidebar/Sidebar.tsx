@@ -16,7 +16,6 @@ const Sidebar: React.FC = () => {
   const role = localStorage.getItem("role");
   const user_id = localStorage.getItem("user_id");
   const navigate = useNavigate();
-  const farm_id = 2;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -46,33 +45,14 @@ const Sidebar: React.FC = () => {
       )}
       <SidebarWrapper isOpen={!isOpen}>
         {token && role === "admin" && (
-          <SidebarLink to="/users">Users</SidebarLink>
-        )}
-        {token && (
-          <SidebarLink
-            to={
-              role === "admin"
-                ? "/equipments"
-                : farm_id
-                ? `/equipments/${farm_id}`
-                : "/farms/${user_id}"
-            }
-          >
-            Equipment
-          </SidebarLink>
-        )}
-        {token && (
-          <SidebarLink
-            to={
-              role === "admin"
-                ? "/crops"
-                : farm_id
-                ? `/crops/${farm_id}`
-                : "/farms/${user_id}"
-            }
-          >
-            Crops
-          </SidebarLink>
+          <>
+            <SidebarLink to="/users">Users</SidebarLink>
+            <SidebarLink to="/equipments">Equipments</SidebarLink>
+            <SidebarLink to="/crops">Crops</SidebarLink>
+            <SidebarLink to="/farms">Farms</SidebarLink>
+            <SidebarLink to="/inventories">Inventories</SidebarLink>
+            <SidebarLink to="/plant_types">Plant Types</SidebarLink>
+          </>
         )}
         {token ? (
           <SidebarLogout onClick={logout}>Logout</SidebarLogout>

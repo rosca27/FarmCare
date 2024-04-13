@@ -14,6 +14,12 @@ import { Equipments } from "./Pages/Equipments/Equipments";
 import { Crops } from "./Pages/Crops/Crops";
 import { CropDetails } from "./Pages/CropDetails/CropDetails";
 import { CropCreateEdit } from "./Pages/CropCreateUpdate/CropCreateUpdate";
+import { FarmCreateEdit } from "./Pages/FarmCreateEdit/FarmCreateEdit";
+import { InventoryCreateEdit } from "./Pages/InventoryCreateEdit/InventoryCreateEdit";
+import { Inventories } from "./Pages/Inventories/Inventories";
+import { PlantTypes } from "./Pages/PlantTypes/PlantTypes";
+import { PlantTypeCreateEdit } from "./Pages/PlantTypeCreateUpdate/PlantTypeCreateUpdate";
+import { CreateEditCost } from "./Pages/CostCreateEdit/CostCreateEdit";
 
 function App() {
   return (
@@ -33,12 +39,25 @@ function App() {
             <Route path="/crops/details/:id" element={<CropDetails />} />
             <Route path="/crops/:id" element={<CropCreateEdit />} />
             <Route path="/crops/create" element={<CropCreateEdit />} />
+            <Route path="/farms/:id" element={<FarmCreateEdit />} />
+            <Route path="/farms/create" element={<FarmCreateEdit />} />
+            <Route path="/inventories" element={<Inventories />} />
+            <Route path="/inventories/:id" element={<InventoryCreateEdit />} />
+            <Route
+              path="/inventories/create"
+              element={<InventoryCreateEdit />}
+            />
             <Route path="/equipments/:id" element={<CreateEditEquipment />} />
             <Route
               path="/equipments/create"
               element={<CreateEditEquipment />}
             />
           </Route>
+          <Route path="/plant_types" element={<PlantTypes />} />
+          <Route path="/plant_types/:id" element={<PlantTypeCreateEdit />} />
+          <Route path="/plant_types/create" element={<PlantTypeCreateEdit />} />
+          <Route path="/costs/:id" element={<CreateEditCost />} />
+          <Route path="/costs/create" element={<CreateEditCost />} />
           <Route path="/auth/login" element={<Login />} />
           <Route path="/auth/register" element={<Register />} />
         </Routes>

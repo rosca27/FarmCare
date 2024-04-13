@@ -42,7 +42,7 @@ export function Crops() {
         </CreateButton>
         <UserTableContainer>
           {crops.map((crop: any) => (
-            <div onClick={() => navigate(`/crops/${crop.id}`)}>
+            <div onClick={() => navigate(`/crops/details/${crop.id}`)}>
               <Card key={crop.id}>
                 <h2>{crop.name}</h2>
                 <p>

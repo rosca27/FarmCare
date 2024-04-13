@@ -153,19 +153,23 @@ export const FarmDetailpage = () => {
                 <div>
                   <FarmDetailsListContainer>
                     {crops.map((crop: any) => (
-                      <FarmDetailCard key={crop.id}>
-                        <h3>{crop.name}</h3>
-                        <p>
-                          <strong>Description:</strong> {crop.description}
-                        </p>
-                        <p>
-                          <strong>Planting date:</strong>{" "}
-                          {crop.planting_date.split("T")[0]}
-                        </p>
-                        <p>
-                          <strong>Status:</strong> {crop.status}
-                        </p>
-                      </FarmDetailCard>
+                      <div
+                        onClick={() => navigate(`/crops/details/${crop.id}`)}
+                      >
+                        <FarmDetailCard key={crop.id}>
+                          <h3>{crop.name}</h3>
+                          <p>
+                            <strong>Description:</strong> {crop.description}
+                          </p>
+                          <p>
+                            <strong>Planting date:</strong>{" "}
+                            {crop.planting_date.split("T")[0]}
+                          </p>
+                          <p>
+                            <strong>Status:</strong> {crop.status}
+                          </p>
+                        </FarmDetailCard>
+                      </div>
                     ))}
                   </FarmDetailsListContainer>
                 </div>
@@ -186,14 +190,18 @@ export const FarmDetailpage = () => {
                 <div>
                   <FarmDetailsListContainer>
                     {inventories.map((inventory: any) => (
-                      <FarmDetailCard key={inventory.id}>
-                        <p>
-                          <strong>Plant:</strong> {inventory.plant_type.name}
-                        </p>
-                        <p>
-                          <strong>Quantity:</strong> {inventory.quantity}
-                        </p>
-                      </FarmDetailCard>
+                      <div
+                        onClick={() => navigate(`/inventories/${inventory.id}`)}
+                      >
+                        <FarmDetailCard key={inventory.id}>
+                          <p>
+                            <strong>Plant:</strong> {inventory.plant_type.name}
+                          </p>
+                          <p>
+                            <strong>Quantity:</strong> {inventory.quantity}
+                          </p>
+                        </FarmDetailCard>
+                      </div>
                     ))}
                   </FarmDetailsListContainer>
                 </div>

@@ -30,7 +30,20 @@ class InventoryController {
     }
 
     public static async getInventories(req: Request, res: Response, next: NextFunction) {
-        const inventories = await InventoryModel.findAll();
+        const inventories = await InventoryModel.findAll({
+            include: [
+                {
+                    model: PlantTypeModel,
+                    as: "plant_type",
+                    attributes: ["name"]
+                },
+                {
+                    model: FarmModel,
+                    as: "farm",
+                    attributes: ["name"]
+                }
+            ]
+        });
         return res.status(200).json({
             success: true,
             data: inventories
