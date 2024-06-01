@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import useCustomFetch from "../../Hooks/useCustomFetch";
 
 import {
@@ -21,11 +21,15 @@ import { CreateSelect } from "../CreateUser/CreateUser.css";
 export function InventoryCreateEdit() {
   const [quantity, setQuantity] = useState("");
   const [plant_type_id, setPlantTypeId] = useState("");
-  const [farm_id, setFarmId] = useState("");
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const farm_id_query = queryParams.get("farm_id");
+  const [farm_id, setFarmId] = useState(farm_id_query ? farm_id_query : "");
   const [farms, setFarms] = useState([]);
   const [plantTypes, setPlantTypes] = useState([]);
   const { token, setToken } = useAuth();
   const role = localStorage.getItem("role");
+  const user_id = localStorage.getItem("user_id");
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -52,7 +56,9 @@ export function InventoryCreateEdit() {
   );
 
   const { data: farmList, customFetch: getFarmsFetcher } = useCustomFetch(
-    `http://localhost:4000/api/farms`,
+    role === "admin"
+      ? `http://localhost:4000/api/farms`
+      : `http://localhost:4000/api/farms/user/${user_id}`,
     "GET"
   );
 

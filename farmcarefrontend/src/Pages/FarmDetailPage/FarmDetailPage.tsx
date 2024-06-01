@@ -13,14 +13,18 @@ import {
 } from "../UserDetailPage/UserDetailPage.css";
 import Sidebar from "../../Components/Sidebar/Sidebar";
 import Card from "../../Components/Card";
-import { UserTableContainer } from "../Users/Users.css";
+import { CreateButton, UserTableContainer } from "../Users/Users.css";
 import {
   FarmDetailButton,
   FarmDetailCard,
+  FarmDetailHeader,
   FarmDetailInfoContainer,
+  FarmDetailTitle,
   FarmDetailsListContainer,
   FarmPropertyWrapper,
   FarmsPropertiesWrapper,
+  FinanceButton,
+  NotificationButton,
   TitleComponent,
 } from "./FarmDetailPage.css";
 
@@ -98,7 +102,20 @@ export const FarmDetailpage = () => {
     <UserDetailPageContainer>
       <Sidebar />
       <UserDetailMainBody>
-        <UserDetailTitle>Farm Detail</UserDetailTitle>
+        <FarmDetailHeader>
+          <FarmDetailTitle>Farm Detail</FarmDetailTitle>
+          <NotificationButton
+            onClick={() => navigate(`/notifications/farm/${id}`)}
+          >
+            Notifications
+          </NotificationButton>
+          <FinanceButton onClick={() => navigate(`/finances/farm/${id}`)}>
+            Finances
+          </FinanceButton>
+          <CreateButton onClick={() => navigate(`/farms/${id}`)}>
+            Edit Farm
+          </CreateButton>
+        </FarmDetailHeader>
         <UserInfoContainer>
           {farm && (
             <div>
@@ -113,7 +130,11 @@ export const FarmDetailpage = () => {
           <FarmPropertyWrapper>
             <TitleComponent>
               <h2>Equipments</h2>
-              <FarmDetailButton onClick={() => navigate("/equipments/create")}>
+              <FarmDetailButton
+                onClick={() =>
+                  navigate(`/equipments/create?farm_id=${(farm as any).id}`)
+                }
+              >
                 Add Equipment
               </FarmDetailButton>
             </TitleComponent>
@@ -144,7 +165,11 @@ export const FarmDetailpage = () => {
           <FarmPropertyWrapper>
             <TitleComponent>
               <h2>Crops</h2>
-              <FarmDetailButton onClick={() => navigate("/crops/create")}>
+              <FarmDetailButton
+                onClick={() =>
+                  navigate(`/crops/create?farm_id=${(farm as any).id}`)
+                }
+              >
                 Add Crop
               </FarmDetailButton>
             </TitleComponent>
@@ -181,7 +206,11 @@ export const FarmDetailpage = () => {
           <FarmPropertyWrapper>
             <TitleComponent>
               <h2>Inventories</h2>
-              <FarmDetailButton onClick={() => navigate("/inventories/create")}>
+              <FarmDetailButton
+                onClick={() =>
+                  navigate(`/inventories/create?farm_id=${(farm as any).id}`)
+                }
+              >
                 Add Inventory
               </FarmDetailButton>
             </TitleComponent>

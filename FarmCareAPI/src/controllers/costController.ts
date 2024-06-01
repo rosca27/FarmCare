@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import CostModel from "../models/cost";
 import { NotFound } from "../utils/errors";
 import CropModel from "../models/crop";
+import CostService from "../services/costService";
 
 class CostController {
     public static async createCost(req: Request, res: Response, next: NextFunction) {
@@ -96,6 +97,18 @@ class CostController {
         return res.status(200).json({
             success: true,
             data: costs
+        });
+    }
+
+    public static async getCostsByFarmId(req: Request, res: Response, next: NextFunction) {
+        const [costs, total] = await CostService.getCostsByFarmId(+req.params.id);
+
+        return res.status(200).json({
+            success: true,
+            data: {
+                costs,
+                total
+            }
         });
     }
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import useCustomFetch from "../../Hooks/useCustomFetch";
 
 import {
@@ -32,7 +32,10 @@ export function CropCreateEdit() {
   const [plant_types, setPlantTypes] = useState([]);
   const [farm, setFarm] = useState({});
   const [farms, setFarms] = useState([]);
-  const [farm_id, setFarmId] = useState("");
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const farm_id_query = queryParams.get("farm_id");
+  const [farm_id, setFarmId] = useState(farm_id_query ? farm_id_query : "");
   const { token, setToken } = useAuth();
   const role = localStorage.getItem("role");
   const user_id = localStorage.getItem("user_id");
@@ -44,7 +47,7 @@ export function CropCreateEdit() {
   const {
     loading,
     error,
-    data,
+    data: createdCropData,
     customFetch: cropFetcher,
   } = useCustomFetch(
     isEditMode
@@ -106,6 +109,16 @@ export function CropCreateEdit() {
   }, [farmList]);
 
   useEffect(() => {
+    if (createdCropData) {
+      if (role === "admin") {
+        navigate("/crops");
+      } else {
+        navigate(`/crops/details/${(createdCropData as any).data.id}`);
+      }
+    }
+  }, [createdCropData]);
+
+  useEffect(() => {
     if (isEditMode && cropData) {
       const {
         name,
@@ -140,7 +153,7 @@ export function CropCreateEdit() {
         if (role === "admin") {
           navigate("/crops");
         } else {
-          navigate(`/crops/details/${farm_id}`);
+          navigate(`/farms/details/${farm_id}`);
         }
       })
       .catch((error) => {
@@ -150,8 +163,8 @@ export function CropCreateEdit() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (!isEditMode) {
+    try {
+      console.log(status);
       await cropFetcher(token as string, {
         name: name,
         description: description,
@@ -163,41 +176,9 @@ export function CropCreateEdit() {
         minimum_growing_days: minimum_growing_days,
         income: income,
         harvesting_date: harvesting_date,
-      })
-        .then((response) => {
-          if (role === "admin") {
-            navigate("/crops");
-          } else {
-            navigate(`/crops/details/${farm_id}`);
-          }
-        })
-        .catch((error) => {
-          console.log("Here is the error:");
-          console.log(error);
-        });
-    } else {
-      await cropFetcher(token as string, {
-        name: name,
-        description: description,
-        farm_id: farm_id,
-        planting_date: planting_date,
-        plant_type_id: plant_type,
-        watering_interval_days: watering_interval_days,
-        status: status,
-        minimum_growing_days: minimum_growing_days,
-        income: income,
-        harvesting_date: harvesting_date,
-      })
-        .then((response) => {
-          if (role === "admin") {
-            navigate("/crops");
-          } else {
-            navigate(`/crops/details/${farm_id}`);
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      });
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -283,7 +264,7 @@ export function CropCreateEdit() {
               >
                 <option value="">Select status</option>
                 <option value="planted">planted</option>
-                <option value="ready for harvest">ready for harvest</option>
+                <option value="ready to harvest">ready to harvest</option>
                 <option value="harvested">harvested</option>
               </CreateSelect>
             </LoginInputBox>

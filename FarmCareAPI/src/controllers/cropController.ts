@@ -79,7 +79,7 @@ class CropController {
             farm_id: req.body.farm_id,
             plant_type_id: req.body.plant_type_id,
             income: req.body.income,
-            staust: req.body.status,
+            status: req.body.status,
             harvesting_date: req.body.harvesting_date
         };
 

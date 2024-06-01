@@ -2,6 +2,8 @@ import { Request, Response, NextFunction } from "express";
 import FinancesModel from "../models/finances";
 import { NotFound } from "../utils/errors";
 import FarmModel from "../models/farm";
+import CostService from "../services/costService";
+import CropModel from "../models/crop";
 
 class FinanceController {
     public static async createFinance(req: Request, res: Response, next: NextFunction) {
@@ -84,18 +86,31 @@ class FinanceController {
 
     public static async getFinanceByFarmId(req: Request, res: Response, next: NextFunction) {
         const farm_id = req.params.id;
-        const farm = await FarmModel.findByPk(farm_id);
-        if (!farm) {
-            throw new NotFound("Farm not found!");
-        }
-        const finances = await FinancesModel.findAll({
+        const [costs, total_cost] = await CostService.getCostsByFarmId(+farm_id);
+        const crops = await CropModel.findAll({
             where: {
                 farm_id: farm_id
             }
         });
+
+        const total_income = crops.reduce((acc, crop) => {
+            acc += crop.income;
+            return acc;
+        }, 0);
+
+        const farm = await FarmModel.findByPk(farm_id);
+        if (!farm) {
+            throw new NotFound("Farm not found!");
+        }
         return res.status(200).json({
             success: true,
-            data: finances
+            data: {
+                farm,
+                costs,
+                crops,
+                total_cost,
+                total_income
+            }
         });
     }
 }

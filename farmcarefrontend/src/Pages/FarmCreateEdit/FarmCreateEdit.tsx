@@ -28,13 +28,14 @@ export function FarmCreateEdit() {
   const role = localStorage.getItem("role");
   const navigate = useNavigate();
   const { id } = useParams();
+  const user_id_local = localStorage.getItem("user_id");
 
   const isEditMode = !!id;
 
   const {
     loading,
     error,
-    data,
+    data: createdFarmData,
     customFetch: farmFetcher,
   } = useCustomFetch(
     isEditMode
@@ -48,7 +49,7 @@ export function FarmCreateEdit() {
     "GET"
   );
 
-  const { customFetch: deleteEquipmentFetcher } = useCustomFetch(
+  const { customFetch: deleteFarmFetcher } = useCustomFetch(
     `http://localhost:4000/api/farms/${id}`,
     "DELETE"
   );
@@ -85,54 +86,36 @@ export function FarmCreateEdit() {
   }, [farmData]);
 
   const handleDelete = async () => {
-    await deleteEquipmentFetcher(token as string, {})
-      .then((response) => {
-        if (role === "admin") {
-          navigate("/farms");
-        } else {
-          navigate(`/farms/details/${farm_id}`);
-        }
+    await deleteFarmFetcher(token as string, {})
+      .then(() => {
+        navigate("/farms");
       })
       .catch((error) => {
         console.log(error);
       });
   };
 
+  useEffect(() => {
+    if (createdFarmData) {
+      if (role === "admin") {
+        navigate("/farms");
+      } else {
+        const farmId = (createdFarmData as any).data.id;
+        navigate(`/farms/details/${farmId}`);
+      }
+    }
+  }, [createdFarmData]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (!isEditMode) {
+    try {
       await farmFetcher(token as string, {
         name: name,
         location: location,
-        user_id: user_id,
-      })
-        .then((response) => {
-          if (role === "admin") {
-            navigate("/farms");
-          } else {
-            navigate(`/farms/details/${farm_id}`);
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    } else {
-      await farmFetcher(token as string, {
-        name: name,
-        location: location,
-        user_id: user_id,
-      })
-        .then((response) => {
-          if (role === "admin") {
-            navigate("/farms");
-          } else {
-            navigate(`/farms/details/${farm_id}`);
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+        user_id: role === "admin" ? user_id : user_id_local,
+      });
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -150,7 +133,7 @@ export function FarmCreateEdit() {
               <LoginInput
                 type="text"
                 id="name"
-                placeholder="Enter the quipment's name"
+                placeholder="Enter the farm's name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
@@ -168,22 +151,24 @@ export function FarmCreateEdit() {
               />
             </LoginInputBox>
           </RegisterGroup>
-          <LoginInputBox>
-            <LoginLabel htmlFor="user_id">User</LoginLabel>
-            <CreateSelect
-              id="user_id"
-              value={user_id}
-              onChange={(e) => setUserId(e.target.value)}
-              required
-            >
-              <option value="">Select User</option>
-              {users.map((user: any) => (
-                <option key={user.id} value={user.id}>
-                  {user.first_name} {user.last_name}
-                </option>
-              ))}
-            </CreateSelect>
-          </LoginInputBox>
+          {role === "admin" && (
+            <LoginInputBox>
+              <LoginLabel htmlFor="user_id">User</LoginLabel>
+              <CreateSelect
+                id="user_id"
+                value={user_id}
+                onChange={(e) => setUserId(e.target.value)}
+                required
+              >
+                <option value="">Select User</option>
+                {users.map((user: any) => (
+                  <option key={user.id} value={user.id}>
+                    {user.first_name} {user.last_name}
+                  </option>
+                ))}
+              </CreateSelect>
+            </LoginInputBox>
+          )}
           <LoginButton type="submit">
             {isEditMode ? "Update Farm" : "Create Farm"}
           </LoginButton>

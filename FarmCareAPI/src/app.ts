@@ -9,6 +9,8 @@ import errorMiddleware from './middlewares/errorMiddleware';
 import Associations from './models/associations';
 import helmet from 'helmet';
 import cors from 'cors';
+import { harvestingCron } from './crons/harvestingCron';
+import { wateringCron } from './crons/wateringCron';
 
 const PORT = environment.PORT || 4000;
 const app = express();
@@ -54,6 +56,9 @@ app.use('/api', router);
 app.use(errorMiddleware);
 
 Associations.init();
+
+harvestingCron.start();
+wateringCron.start();
 
 (async () => {
     try {

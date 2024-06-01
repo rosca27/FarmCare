@@ -20,6 +20,9 @@ import { Inventories } from "./Pages/Inventories/Inventories";
 import { PlantTypes } from "./Pages/PlantTypes/PlantTypes";
 import { PlantTypeCreateEdit } from "./Pages/PlantTypeCreateUpdate/PlantTypeCreateUpdate";
 import { CreateEditCost } from "./Pages/CostCreateEdit/CostCreateEdit";
+import { Finances } from "./Pages/Finances/Finances";
+import { Notifications } from "./Pages/Notifications/Notifications";
+import { ImageUpload } from "./Pages/ImageUpload/ImageUpload";
 
 function App() {
   return (
@@ -52,6 +55,9 @@ function App() {
               path="/equipments/create"
               element={<CreateEditEquipment />}
             />
+            <Route path="/finances/farm/:id" element={<Finances />} />
+            <Route path="/notifications/farm/:id" element={<Notifications />} />
+            <Route path="/plant-disease-classify" element={<ImageUpload />} />
           </Route>
           <Route path="/plant_types" element={<PlantTypes />} />
           <Route path="/plant_types/:id" element={<PlantTypeCreateEdit />} />

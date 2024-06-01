@@ -19,4 +19,7 @@ router.route("/:id")
 router.route("/crop/:id")
     .get(AuthValidator, numericIdParamValidator, asyncHandler(CostController.getCostsByCropId));
 
+router.route("/farm/:id")
+    .get(AuthValidator, numericIdParamValidator, asyncHandler(CostController.getCostsByFarmId));
+
 export default router;

@@ -91,7 +91,8 @@ class NotificationController {
         const notifications = await NotificationsModel.findAll({
             where: {
                 farm_id: farm_id
-            }
+            },
+            include: ["farm"]
         });
         return res.status(200).json({
             success: true,

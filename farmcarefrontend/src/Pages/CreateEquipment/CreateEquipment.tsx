@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import useCustomFetch from "../../Hooks/useCustomFetch";
 
 import {
@@ -23,7 +23,10 @@ export function CreateEditEquipment() {
   const [description, setDescription] = useState("");
   const [farm, setFarm] = useState({});
   const [farms, setFarms] = useState([]);
-  const [farm_id, setFarmId] = useState("");
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const farm_id_query = queryParams.get("farm_id");
+  const [farm_id, setFarmId] = useState(farm_id_query ? farm_id_query : "");
   const { token, setToken } = useAuth();
   const role = localStorage.getItem("role");
   const user_id = localStorage.getItem("user_id");
@@ -35,7 +38,7 @@ export function CreateEditEquipment() {
   const {
     loading,
     error,
-    data,
+    data: createdEquipmentData,
     customFetch: equipmentFetcher,
   } = useCustomFetch(
     isEditMode
@@ -85,6 +88,16 @@ export function CreateEditEquipment() {
     }
   }, [equipmentData]);
 
+  useEffect(() => {
+    if (createdEquipmentData) {
+      if (role === "admin") {
+        navigate("/equipments");
+      } else {
+        navigate(`/farms/details/${farm_id}`);
+      }
+    }
+  }, [createdEquipmentData]);
+
   const handleDelete = async () => {
     await deleteEquipmentFetcher(token as string, {})
       .then((response) => {
@@ -101,39 +114,14 @@ export function CreateEditEquipment() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (!isEditMode) {
+    try {
       await equipmentFetcher(token as string, {
         name: name,
         description: description,
         farm_id: farm_id,
-      })
-        .then((response) => {
-          if (role === "admin") {
-            navigate("/equipments");
-          } else {
-            navigate(`/farms/details/${farm_id}`);
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    } else {
-      await equipmentFetcher(token as string, {
-        name: name,
-        description: description,
-        farm_id: farm_id,
-      })
-        .then((response) => {
-          if (role === "admin") {
-            navigate("/equipments");
-          } else {
-            navigate(`/farms/details/${farm_id}`);
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      });
+    } catch (error) {
+      console.log(error);
     }
   };
 

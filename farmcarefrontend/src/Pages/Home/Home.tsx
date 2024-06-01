@@ -4,6 +4,7 @@ import {
   HomeButton,
   HomeComponent,
   HomeTitle,
+  PLantDiseaseButton,
   WeatherHomeComponent,
   WeatherHomeTitle,
   WheatherHomeParagraph,
@@ -44,9 +45,16 @@ export const Home: React.FC = () => {
       )}
       <HomeTitle mounted={mounted}>FarmCare</HomeTitle>
       {token && user_role === "farmer" && (
-        <HomeButton onClick={() => navigate(`/farms`)}>
-          Explore your Farms
-        </HomeButton>
+        <>
+          <HomeButton onClick={() => navigate(`/farms`)}>
+            Explore your Farms
+          </HomeButton>
+          <PLantDiseaseButton
+            onClick={() => navigate(`/plant-disease-classify`)}
+          >
+            Check Plant Disease
+          </PLantDiseaseButton>
+        </>
       )}
     </HomeComponent>
   );

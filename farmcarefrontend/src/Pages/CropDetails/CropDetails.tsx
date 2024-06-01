@@ -121,7 +121,11 @@ export const CropDetails = () => {
                 <h2>Costs</h2>
                 <FarmDetailButton
                   onClick={() =>
-                    navigate(`/costs/create?farm_id=${(crop as any).farm_id}`)
+                    navigate(
+                      `/costs/create?farm_id=${
+                        (crop as any).farm_id
+                      }&crop_id=${id}`
+                    )
                   }
                 >
                   Add Cost

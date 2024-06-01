@@ -44,6 +44,7 @@ const Sidebar: React.FC = () => {
         <SidebarToggle onClick={toggleSidebar}>&#9776;</SidebarToggle>
       )}
       <SidebarWrapper isOpen={!isOpen}>
+        <SidebarLink to="/">Home</SidebarLink>
         {token && role === "admin" && (
           <>
             <SidebarLink to="/users">Users</SidebarLink>
@@ -52,6 +53,11 @@ const Sidebar: React.FC = () => {
             <SidebarLink to="/farms">Farms</SidebarLink>
             <SidebarLink to="/inventories">Inventories</SidebarLink>
             <SidebarLink to="/plant_types">Plant Types</SidebarLink>
+          </>
+        )}
+        {token && role === "farmer" && (
+          <>
+            <SidebarLink to="/farms">My Farms</SidebarLink>
           </>
         )}
         {token ? (

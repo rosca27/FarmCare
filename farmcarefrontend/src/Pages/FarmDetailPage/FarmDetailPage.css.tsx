@@ -89,3 +89,50 @@ export const FarmDetailsListContainer = styled.div`
   align-items: center;
   overflow-y: auto;
 `;
+
+export const FinanceButton = styled.button`
+  height: 45px;
+  width: 200px;
+  background-color: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(20px);
+  margin-left: 62%;
+  border: none;
+  outline: none;
+  border-radius: 40px;
+  font-size: 16px;
+  color: black;
+  font-weight: 500;
+  margin-top: 20px;
+`;
+
+export const FarmDetailHeader = styled.div`
+  display: flex;
+  padding: 20px;
+  border-radius: 10px;
+`;
+
+export const FarmDetailTitle = styled.h1`
+  text-align: center;
+  jystify-content: center;
+  font-size: 3rem;
+  color: white;
+  @media screen and (max-width: 768px) {
+    font-size: 2rem;
+  }
+`;
+
+export const NotificationButton = styled.button`
+  position: absolute;
+  height: 45px;
+  width: 200px;
+  background-color: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(20px);
+  margin-left: 43%;
+  border: none;
+  outline: none;
+  border-radius: 40px;
+  font-size: 16px;
+  color: black;
+  font-weight: 500;
+  margin-top: 20px;
+`;

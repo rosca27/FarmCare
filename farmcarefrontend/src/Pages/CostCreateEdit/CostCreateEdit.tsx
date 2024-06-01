@@ -21,13 +21,15 @@ import { CreateSelect } from "../CreateUser/CreateUser.css";
 export function CreateEditCost() {
   const [name, setName] = useState("");
   const [amount, setAmount] = useState("");
-  const [crop_id, setCropId] = useState("");
-  const [crops, setCrops] = useState([]);
-  const { token, setToken } = useAuth();
-  const role = localStorage.getItem("role");
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const farm_id = queryParams.get("farm_id");
+  const crop_id_query = queryParams.get("crop_id");
+  const [crop_id, setCropId] = useState(crop_id_query ? crop_id_query : "");
+  const [crops, setCrops] = useState([]);
+  const { token, setToken } = useAuth();
+  const role = localStorage.getItem("role");
+
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -36,7 +38,7 @@ export function CreateEditCost() {
   const {
     loading,
     error,
-    data,
+    data: createdCostData,
     customFetch: costFetcher,
   } = useCustomFetch(
     isEditMode
@@ -88,14 +90,16 @@ export function CreateEditCost() {
     }
   }, [costData]);
 
+  useEffect(() => {
+    if (createdCostData) {
+      navigate(`/crops/details/${crop_id}`);
+    }
+  }, [createdCostData]);
+
   const handleDelete = async () => {
     await deleteCostFetcher(token as string, {})
       .then((response) => {
-        if (role === "admin") {
-          navigate("/costs");
-        } else {
-          navigate(`/crops/details/${crop_id}`);
-        }
+        navigate(`/crops/details/${crop_id}`);
       })
       .catch((error) => {
         console.log(error);
@@ -104,39 +108,14 @@ export function CreateEditCost() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (!isEditMode) {
+    try {
       await costFetcher(token as string, {
         name: name,
         amount: amount,
         crop_id: crop_id,
-      })
-        .then((response) => {
-          if (role === "admin") {
-            navigate("/costs");
-          } else {
-            navigate(`/crops/details/${crop_id}`);
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    } else {
-      await costFetcher(token as string, {
-        name: name,
-        amount: amount,
-        crop_id: crop_id,
-      })
-        .then((response) => {
-          if (role === "admin") {
-            navigate("/equipments");
-          } else {
-            navigate(`/crops/details/${crop_id}`);
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      });
+    } catch (error) {
+      console.log(error);
     }
   };
 

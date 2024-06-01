@@ -8,6 +8,9 @@
 		},
 		{
 			"path": "farmcarefrontend"
+		},
+		{
+			"path": "FarmCareImageProcessing"
 		}
 	]
 }

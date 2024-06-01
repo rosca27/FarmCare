@@ -90,3 +90,22 @@ export const HomeButton = styled.button`
       transform 0.3s ease;
   }
 `;
+
+export const PLantDiseaseButton = styled.button`
+  height: 45px;
+  width: 200px;
+  border: none;
+  margin-left: 10px;
+  outline: none;
+  background: #fff;
+  border-radius: 40px;
+  font-size: 16px;
+  color: black;
+  font-weight: 500;
+  &:hover {
+    background: #f0f0f0;
+    transform: scale(1.03);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease,
+      transform 0.3s ease;
+  }
+`;

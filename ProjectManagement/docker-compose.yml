@@ -15,6 +15,16 @@ services:
     command: npm run dev
     networks: ["my_network"]
 
+  your_flask_app:
+    container_name: your_flask_app
+    restart: always
+    build:
+      context: ../FarmCareImageProcessing
+      dockerfile: ../FarmCareImageProcessing/Dockerfile
+    ports:
+      - "6000:6000"
+    networks: ["my_network"]
+
   mysql:
     container_name: farmcare_api_mysql
     image: mysql:latest

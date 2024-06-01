@@ -71,3 +71,7 @@ export const SidebarLogout = styled.button`
     background-color: rgba(255, 255, 255, 0.3);
   }
 `;
+
+export const FileInput = styled.input`
+  display: none;
+`;
